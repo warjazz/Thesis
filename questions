@@ -1,0 +1,36 @@
+High Resolution, low latency spectral analysis for realtime guitar pitch tracking
+
+Low Latency
+	-	Few Samples. Meaning difficult to estimate Log pitch
+	-	We can try a Mel DFT. But Resolution might be lacking
+	-	Pitch Tracking is not hard to do efficiently.
+	-	We want to track Vibrato
+
+
+Project Restrictions
+	-	Single Note Only (With Vibrato)
+	-	Minimum Delay
+	-	Equal Temperament Standard Tuning(E2 = 82.407 to E6 = 1318.510)
+	-	Ideal Goal:	<10ms
+	-	Pragmatic Goal:	<50ms
+
+
+Performance Metric
+	-	DI in.
+	-	Primary Success measurement would be maintaining a specific accuracy at a certain speed.
+	-	
+
+Tools
+	-	Build a plugin in VST3 (VST3 supports midi out)
+
+Considerations
+	-	MIDI:	Note On, Note Off, Pitch Bend (Set Once)
+	-		Note On VELEOCITY, Note Off Velocity (Mostly Ignored)
+	-	Sampling Rate at 44.1Khz (CD Quality). 15ms yields 661 Samples. But we also need to track pitch!
+	-	VST Buffers are Powers of 2 (128 - 1024). Processing must be VERY quick
+	-	Might want to reduce internal sampling rate. Higher up harmonics add exponential decaying value
+	-				And their amplitude will be ~1% of norm
+	-	Need to design an algorithm to drop low frequencies as well (Plectrum Pluck will end up as noise)
+
+Vibrato
+	-	Fastest Vibrato is around 300rpm == 5Hz
